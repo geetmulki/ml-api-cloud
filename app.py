@@ -1,12 +1,9 @@
 from flask import Flask, request, jsonify
 import joblib
-import os
 
 application = Flask(__name__)
 
-model_path = os.path.join(os.path.dirname(__file__), 'sentiment_model.joblib')
-
-model = joblib.load(model_path)
+model = joblib.load('sentiment_model.joblib')
 
 @application.route('/predict', methods=['POST'])
 def predict():
