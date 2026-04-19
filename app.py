@@ -1,9 +1,12 @@
 from flask import Flask, request, jsonify
 import joblib
+import os
 
 application = Flask(__name__)
 
-model = joblib.load('sentiment_model.joblib')
+model_path = os.path.join(os.path.dirname(__file__), 'sentiment_model.joblib')
+
+model = joblib.load(model_path)
 
 @application.route('/predict', methods=['POST'])
 def predict():
@@ -16,10 +19,10 @@ def predict():
     prediction = model.predict([text])[0]
 
     return jsonify({
-    'input_text': text,
-    'sentiment_prediction': prediction,
-    'model_version': '1.0'
-})
+        'input_text': text,
+        'sentiment_prediction': prediction,
+        'model_version': '1.0'
+    })
 
 if __name__ == '__main__':
     application.run(host='0.0.0.0', port=5000)
